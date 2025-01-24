@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>{{ form.instance.pk|default:"Add New" }} Parish</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" class="btn btn-success">
+    <a href="{% url 'parish_list' %}" class="cancel-link">Cancel</a>
+</form>
+{% endblock %}

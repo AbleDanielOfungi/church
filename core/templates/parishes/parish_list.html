@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Parishes</h2>
+<a href="{% url 'parish_add' %}" class="btn btn-primary">Add New Parish</a>
+<table>
+    <thead>
+        <tr>
+            <th>Parish Name</th>
+            <th>Location</th>
+            <th>Parish Priest</th>
+            <th>Contact</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for parish in parishes %}
+        <tr>
+            <td>{{ parish.parish_name }}</td>
+            <td>{{ parish.parish_location }}</td>
+            <td>{{ parish.parish_priest }}</td>
+            <td>{{ parish.contact_number }}</td>
+            <td>
+                <a href="{% url 'parish_edit' parish.parish_id %}">Edit</a>
+                <a href="{% url 'parish_delete' parish.parish_id %}" class="cancel-link">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

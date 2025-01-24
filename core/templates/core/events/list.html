@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Events List</h1>
+    
+    <a href="{% url 'add_event' %}">Add New Event</a>
+    
+    {% if events %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Event Date</th>
+                    <th>Event Time</th>
+                    <th>Venue</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.event_name }}</td>
+                        <td>{{ event.event_date }}</td>
+                        <td>{{ event.event_time }}</td>
+                        <td>{{ event.event_venue }}</td>
+                        <td>
+                            <a href="{% url 'update_event' event.event_id %}">Edit</a> |
+                            <a href="{% url 'delete_event' event.event_id %}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No events available.</p>
+    {% endif %}
+{% endblock %}

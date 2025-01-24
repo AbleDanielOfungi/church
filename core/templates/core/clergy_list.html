@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Clergy Management</h2>
+<a href="{% url 'clergy_add' %}">Add New Clergy</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Parish</th>
+            <th>Contact</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for clergy in clergy_list %}
+        <tr>
+            <td>{{ clergy.first_name }} {{ clergy.last_name }}</td>
+            <td>{{ clergy.role }}</td>
+            <td>{{ clergy.parish_assigned }}</td>
+            <td>{{ clergy.contact_number }}</td>
+            <td>
+                <a href="{% url 'clergy_edit' clergy.clergy_id %}">Edit</a> |
+                <a href="{% url 'clergy_delete' clergy.clergy_id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
