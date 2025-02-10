@@ -163,43 +163,213 @@ def add_appointment(request):
 
 
 
+
+#event views
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event
 from .forms import EventForm
 
+# List Events
+from django.shortcuts import render
+from core.models import Event  # Import your Event model
 
 def list_events(request):
-    events = Event.objects.all()  # Retrieve all events from the database
-    print(events)  # Debugging line to check if events are fetched correctly
+    events = Event.objects.all()
     return render(request, 'core/events/list.html', {'events': events})
 
-# Add a new event
+# Add Event
 def add_event(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the event to the database
-            return redirect('list_events')  # Redirect to the events list after saving
+            form.save()
+            return redirect('list_events')
     else:
-        form = EventForm()  # Create an empty form for GET request
-
+        form = EventForm()
     return render(request, 'core/events/add.html', {'form': form})
 
-# Update an event
+# Update Event
 def update_event(request, event_id):
     event = get_object_or_404(Event, event_id=event_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
-            form.save()  # Save the updated event to the database
-            return redirect('list_events')  # Redirect to the events list after saving
+            form.save()
+            return redirect('list_events')
     else:
-        form = EventForm(instance=event)  # Pre-fill the form with the current event data
+        form = EventForm(instance=event)
+    return render(request, 'core/events/edit.html', {'form': form, 'event': event})
 
-    return render(request, 'core/events/update.html', {'form': form})
-
-# Delete an event
+# Delete Event
 def delete_event(request, event_id):
     event = get_object_or_404(Event, event_id=event_id)
-    event.delete()  # Delete the event from the database
-    return redirect('list_events')  # Redirect to the events list after deleting
+    event.delete()
+    return redirect('list_events')
+
+
+
+#mass scheduling
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import MassSchedule
+from .forms import MassScheduleForm
+from django.contrib import messages
+
+def list_masses(request):
+    masses = MassSchedule.objects.all()
+    return render(request, 'core/mass_schedule/list.html', {'masses': masses})
+
+
+def add_mass(request):
+    if request.method == 'POST':
+        form = MassScheduleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Mass scheduled successfully.")
+            return redirect('list_masses')
+    else:
+        form = MassScheduleForm()
+    return render(request, 'core/mass_schedule/form.html', {'form': form})
+
+
+def edit_mass(request, schedule_id):
+    mass = get_object_or_404(MassSchedule, schedule_id=schedule_id)
+    if request.method == 'POST':
+        form = MassScheduleForm(request.POST, instance=mass)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Mass schedule updated successfully.")
+            return redirect('list_masses')
+    else:
+        form = MassScheduleForm(instance=mass)
+    return render(request, 'core/mass_schedule/form.html', {'form': form})
+
+def delete_mass(request, schedule_id):
+    mass = get_object_or_404(MassSchedule, schedule_id=schedule_id)
+    mass.delete()
+    messages.success(request, "Mass schedule deleted successfully.")
+    return redirect('list_masses')
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Sacrament
+from .forms import SacramentForm
+from django.contrib import messages
+
+def list_sacraments(request):
+    sacraments = Sacrament.objects.all()
+    return render(request, 'core/sacrament/list.html', {'sacraments': sacraments})
+
+
+def add_sacrament(request):
+    if request.method == 'POST':
+        form = SacramentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Sacrament added successfully!")
+            return redirect('list_sacraments')
+    else:
+        form = SacramentForm()
+    return render(request, 'core/sacrament/add.html', {'form': form})
+
+
+def edit_sacrament(request, sacrament_id):
+    sacrament = get_object_or_404(Sacrament, pk=sacrament_id)
+    if request.method == 'POST':
+        form = SacramentForm(request.POST, instance=sacrament)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Sacrament updated successfully!")
+            return redirect('list_sacraments')
+    else:
+        form = SacramentForm(instance=sacrament)
+    return render(request, 'core/sacrament/edit.html', {'form': form, 'sacrament': sacrament})
+
+
+def delete_sacrament(request, sacrament_id):
+    sacrament = get_object_or_404(Sacrament, pk=sacrament_id)
+    if request.method == 'POST':
+        sacrament.delete()
+        messages.success(request, "Sacrament deleted successfully!")
+        return redirect('list_sacraments')
+    return render(request, 'core/sacrament/confirm_delete.html', {'sacrament': sacrament})
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Meeting
+from .forms import MeetingForm
+
+def list_meetings(request):
+    meetings = Meeting.objects.all()
+    return render(request, 'core/meeting/list.html', {'meetings': meetings})
+
+def add_meeting(request):
+    if request.method == 'POST':
+        form = MeetingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Meeting added successfully!')
+            return redirect('list_meetings')
+    else:
+        form = MeetingForm()
+    return render(request, 'core/meeting/add.html', {'form': form})
+
+def edit_meeting(request, pk):
+    meeting = Meeting.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = MeetingForm(request.POST, instance=meeting)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Meeting updated successfully!')
+            return redirect('list_meetings')
+    else:
+        form = MeetingForm(instance=meeting)
+    return render(request, 'core/meeting/edit.html', {'form': form, 'meeting': meeting})
+
+def delete_meeting(request, pk):
+    meeting = Meeting.objects.get(pk=pk)
+    meeting.delete()
+    messages.success(request, 'Meeting deleted successfully!')
+    return redirect('list_meetings')
+
+
+
+from django.shortcuts import render, redirect
+from .models import Role
+from .forms import RoleForm  # You'll need to create this form for adding/editing roles
+
+# List all roles
+def list_roles(request):
+    roles = Role.objects.all()
+    return render(request, 'roles/list.html', {'roles': roles})
+
+# Add new role
+def add_role(request):
+    if request.method == 'POST':
+        form = RoleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_roles')
+    else:
+        form = RoleForm()
+    return render(request, 'roles/add.html', {'form': form})
+
+# Edit an existing role
+def edit_role(request, pk):
+    role = Role.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = RoleForm(request.POST, instance=role)
+        if form.is_valid():
+            form.save()
+            return redirect('list_roles')
+    else:
+        form = RoleForm(instance=role)
+    return render(request, 'roles/edit.html', {'form': form})
+
+# Delete an existing role
+def delete_role(request, pk):
+    role = Role.objects.get(pk=pk)
+    if request.method == 'POST':
+        role.delete()
+        return redirect('list_roles')
+    return render(request, 'roles/delete.html', {'role': role})

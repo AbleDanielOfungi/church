@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2>Mass Schedules</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Parish</th>
+                <th>Mass Time</th>
+                <th>Mass Date</th>
+                <th>Priest</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.parish.parish_name }}</td>
+                    <td>{{ schedule.mass_time }}</td>
+                    <td>{{ schedule.mass_date }}</td>
+                    <td>{{ schedule.priest.first_name }} {{ schedule.priest.last_name }}</td>
+                    <td>{{ schedule.description }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No mass schedules available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

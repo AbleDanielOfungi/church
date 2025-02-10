@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Edit Mass Schedule</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Schedule</button>
+    </form>
+{% endblock %}

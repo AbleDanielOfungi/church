@@ -1,0 +1,21 @@
+<!-- templates/roles/list.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2>Roles</h2>
+    <a href="{% url 'add_role' %}">Add New Role</a>
+    
+    {% if roles %}
+        <ul>
+            {% for role in roles %}
+                <li>
+                    {{ role.role_name }} - {{ role.permissions }}
+                    <a href="{% url 'edit_role' role.pk %}">Edit</a>
+                    <a href="{% url 'delete_role' role.pk %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No roles available.</p>
+    {% endif %}
+{% endblock %}

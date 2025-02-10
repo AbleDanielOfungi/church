@@ -79,14 +79,42 @@ class Appointment(models.Model):
         return f"{self.appointment_type} - {self.appointment_date} at {self.venue}"
 
 
+# class MassSchedule(models.Model):
+#     schedule_id = models.AutoField(primary_key=True)
+#     parish = models.ForeignKey(Parish, on_delete=models.CASCADE)
+#     mass_time = models.TimeField()
+#     mass_date = models.DateField()
+#     priest = models.ForeignKey(Clergy, on_delete=models.CASCADE)
+#     description = models.TextField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
+# class MassSchedule(models.Model):
+#     schedule_id = models.AutoField(primary_key=True)
+#     parish = models.ForeignKey(Parish, on_delete=models.CASCADE)
+#     mass_time = models.TimeField()
+#     mass_date = models.DateField()
+#     priest = models.ForeignKey(Clergy, on_delete=models.CASCADE)
+#     description = models.TextField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"Mass on {self.mass_date} at {self.mass_time} in {self.parish}"
+
+from django.db import models
+
 class MassSchedule(models.Model):
     schedule_id = models.AutoField(primary_key=True)
-    parish = models.ForeignKey(Parish, on_delete=models.CASCADE)
-    mass_time = models.TimeField()
+    parish = models.ForeignKey(Parish, on_delete=models.CASCADE)  # Link to Parish
+    priest = models.ForeignKey(Clergy, on_delete=models.CASCADE)  # Link to Clergy
     mass_date = models.DateField()
-    priest = models.ForeignKey(Clergy, on_delete=models.CASCADE)
-    description = models.TextField()
+    mass_time = models.TimeField()
+    description = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Mass at {self.parish.parish_name} on {self.mass_date} at {self.mass_time}"
+
+
 
 class Sacrament(models.Model):
     sacrament_id = models.AutoField(primary_key=True)
@@ -108,11 +136,21 @@ class Meeting(models.Model):
     minutes = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+# class Role(models.Model):
+#     role_id = models.AutoField(primary_key=True)
+#     role_name = models.CharField(max_length=100)
+#     permissions = models.TextField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
 class Role(models.Model):
-    role_id = models.AutoField(primary_key=True)
-    role_name = models.CharField(max_length=100)
-    permissions = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    role_id = models.AutoField(primary_key=True)  # Auto-incrementing ID for the role
+    role_name = models.CharField(max_length=100)  # Name of the role (e.g., Admin, Priest, etc.)
+    permissions = models.TextField()  # Permissions associated with the role (can store a list or description of permissions)
+    timestamp = models.DateTimeField(auto_now_add=True)  # Automatically records the time when the role is created
+    
+    def __str__(self):
+        return self.role_name
+
 
 # class Event(models.Model):
 #     event_id = models.AutoField(primary_key=True)
@@ -155,3 +193,7 @@ class Announcement(models.Model):
     posted_by = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     parish = models.ForeignKey(Parish, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+
+

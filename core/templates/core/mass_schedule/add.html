@@ -1,13 +1,10 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Edit Event</h1>
-
+    <h1>Add Mass Schedule</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Update Event</button>
+        <button type="submit">Add Schedule</button>
     </form>
-
-    <a href="{% url 'list_events' %}">Back to Events List</a>
 {% endblock %}

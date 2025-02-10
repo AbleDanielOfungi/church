@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2>Are you sure you want to delete this mass schedule?</h2>
+    <p>Mass on {{ schedule.mass_date }} at {{ schedule.mass_time }} in {{ schedule.parish }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <a href="{% url 'mass_schedules_list' %}">Cancel</a>
+{% endblock %}

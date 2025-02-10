@@ -181,6 +181,16 @@ a.cancel-link {
                 <li><a href="{% url 'parishes_list' %}">Parishes</a></li>
                 <li><a href="{% url 'appointments_list' %}">Appointments</a></li>
                 <li><a href="{% url 'events_list' %}">Events</a></li>
+                {% comment %} <li><a href="{% url 'mass_list' %}">Mass Schedules</a></li> {% endcomment %}
+                {% comment %} <li><a href="{% url 'mass_list' %}">Mass Schedules</a></li> {% endcomment %}
+                <li><a href="{% url 'list_masses' %}">Mass Schedules</a></li>
+                <li><a href="{% url 'list_sacraments' %}">Sacraments</a></li>
+                <li><a href="{% url 'list_meetings' %}">Meetings</a></li>
+                {% comment %} <li><a href="{% url 'list_roles' %}">Roles</a></li> {% endcomment %}
+
+
+                 
+                
             </ul>
         </nav>
     </header>

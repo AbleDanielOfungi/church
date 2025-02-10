@@ -1,0 +1,15 @@
+<!-- templates/roles/add.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2>Add New Role</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Role</button>
+    </form>
+    
+    <br>
+    <a href="{% url 'list_roles' %}">Back to Roles</a>
+{% endblock %}
